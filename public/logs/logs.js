@@ -10,6 +10,7 @@ async function getData() {
         const date = document.createElement('div').textContent = `Time: ${dateString}`
         const image = document.createElement('img')
         image.src = item.image64
+        image.id = 'photo'
         root.append(name, geo, date, image)
         document.body.append(root)
     }
