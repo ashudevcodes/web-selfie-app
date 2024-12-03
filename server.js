@@ -1,7 +1,9 @@
 const express = require('express')
+const { exec } = require('child_process');
+const os = require('os')
 const DataStore = require('nedb')
 const app = express()
-
+const PORT = 6969
 app.use(express.static('public'))
 app.use(express.json({ limit: '1mb' }))
 
@@ -35,4 +37,19 @@ app.get('/api', (req, res) => {
     })
 })
 
-app.listen(8000, () => { console.log("Application Listen at PORT 8000") })
+app.listen(PORT, () => {
+    console.log(`Application Listen at PORT ${PORT}`)
+    switch (os.platform()) {
+        case 'linux':
+            exec(`xdg-open http://localhost:${PORT}`)
+            break;
+        case 'win32':
+            exec(`start http://localhost:${PORT}`)
+            break;
+        case 'darwin':
+            exec(`open http://localhost:${PORT}`)
+            break;
+        default:
+            break;
+    }
+})
