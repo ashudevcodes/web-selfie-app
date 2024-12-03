@@ -13,5 +13,3 @@
 
 # How Its Look
 <kbd><img src="./assets/Screenshot From 2024-12-03 19-19-27.png"><kbd>
-<br>
-<kbd><img src="./assets/Screenshot From 2024-12-03 19-19-39.png"><kbd>
