@@ -12,19 +12,22 @@
     </head>
     <body>
         <h1>Data Selfie App</h1>
-            <div>
-            <a href="./index.html">Enter Location</a> |
+            <div id="atags">
+            <a href="./index.html">Enter Location</a>
             <a href="./logs/index.html">List Location</a>
-                <hr>
             </div>
-            <div>
-                <label for="name">Say My Name: </label>
-                <input type="text" id='name'></p> 
-                <button id='sendloc'>Send Data</button>
-                <p>Hover the mouse in latitude & longitude to unblur the coordinatesc</p>
+            <div id="textbox">
+                <p>The Weather Temperature Here is <span id='temperature'></span>&deg; C</p>    
+                <p style="color:yellow">Hover to Unblur Coordinatesc</p>
                 <p>Latitude: <span id='latitude'></span><br>Longitude: <span id='longitude'></span></p> 
-                <div id="map"></div><br>
+            <div id="leftal"style="position: absolute; bottom: 10px; left: 10px; display:flex; column-gap: 5px;">
+                <label style="color:white; width:10vw;" for="name">Say My Name:</label>
+                <input type="text" id='name' placeholder="Enter">
+                <button id="cambtn">Turn on Video</button>
+                <button id='sendloc'>Capture Data</button>
             </div>
+                <div id="map"></div><br>
+        </div>
         <script src='./script.js'></script>
     </body>
 </html>

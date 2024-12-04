@@ -1,28 +1,195 @@
-#map{
-    height: 400px;
-    width: 800px;
-    border-radius: 10px;
+@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap');
+body{
+    font-family: "Doto", sans-serif;
+    font-weight: 900;
+    font-size:20px;
+    background-color:gray;
 }
-#photo{
+
+@media screen and (max-width: 720px) {
+    p {
+        font-size: 17px;
+        padding: 8px;
+    }
+    label{
+        font-weight:900;
+    }
+
+    input[type='text'] {
+        width: 100%;
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    #atags {
+	position: absolute;
+	bottom: 77px;
+	display: grid;
+
+}
+
+    a {
+        font-size: 14px;
+    }
+
+   #textbox {
+        row-gap: 3px;
+        font-size:15px;
+    }
+    
+
+    #video_i {
+    margin-bottom: 146px;
+}
+
+}
+#map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -13;
+    object-fit: cover;
+}
+
+#photo {
     display: block;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 15px;
     filter: blur(3px);
-    transition: filter 0.3 ease;
+    transition: filter 0.3s ease;
 }
-#photo:hover{
-    filter:none
+
+#photo:hover {
+    filter: none;
+}
+
+p{
+    /* font-size:18px; */
+    background: rgba(255, 255, 255, 0.2); 
+    color: white;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 10px;
+    padding: 12px;
 }
 
 #video_i {
-  border-radius: 10px;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+#camdtn{
+    border-radius: 10px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
-#longitude, #latitude{
+#latitude, #longitude{
     filter: blur(3px);
     transition: filter 0.3s ease;
 }
-#longitude:hover, #latitude:hover{
+#latitude:hover, #longitude:hover{
     filter: none;
+}
+
+h1 {
+    background-color: lightgreen;
+    margin:0px;
+    text-align: center;
+    border-radius:5px;
+    padding:10px;
+}
+
+a {
+    color: white;
+    background-color: #00bcd4;
+    text-decoration: none;
+    padding: 8px 16px;
+    margin-left:10px;
+    margin-top:10px;
+    border-radius: 6px;
+    float: left;
+    transition: background-color 0.3s ease;
+}
+#atags{
+    float:right;
+}
+
+a:hover {
+    color: #00acc1;
+    background-color:#84f5dc;
+}
+
+
+#textbox{
+    float:left;
+    margin-top:10px;
+    display:grid;
+    row-gap:5px;
+}
+label{
+    align-content: center;
+}
+
+input[type='text'] {
+    width: 20%;
+    padding: 12px;
+    transition: border-color 0.3s ease;
+    font-family:'Doto';
+    background: rgba(255, 255, 255, 0.2); 
+    color: white;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 10px;
+    padding: 12px;
+    font-weight:bold;
+    float: left;
+    font-size:20px;
+}
+
+input[type='text']:focus {
+    outline: none;
+    border-color: #00bcd4;
+}
+
+button {
+    background-color: #00bcd4;
+    color: black;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    width:35%;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    float: left;
+    font-family: "Doto", sans-serif;
+}
+
+button:hover {
+    background-color: #00acc1;
+}
+
+
+
+#temperature {
+    color: #e53935;
+    font-weight: 900;
+}
+
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }

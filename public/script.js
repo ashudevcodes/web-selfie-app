@@ -6,20 +6,41 @@ setup()
 
 function setup() {
     if ('geolocation' in navigator) {
-        console.log("geoLocatioan is available")
-        navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.getCurrentPosition(async (position) => {
             noCanvas()
-            const video = createCapture(VIDEO)
-            video.size(320, 240)
-            document.querySelector('video').id = "video_i"
+            let videoOn = true;
+            let video
+            document.getElementById('cambtn').addEventListener("click", () => {
+                console.log("click")
+                if (videoOn) {
+                    video = createCapture(VIDEO)
+                    video.size(320, 240)
+                    document.querySelector('video').id = "video_i"
+                    videoOn = false;
+                } else {
+                    if (video) {
+                        video.remove()
+                        video.stop()
+                        videoOn = true
+                    }
+                }
+            })
+
             const latitude = position.coords.latitude
             const longitude = position.coords.longitude
-            const map = L.map('map').setView([latitude, longitude], 13)
-            L.tileLayer(tileURL, { attribution }).addTo(map)
-            L.marker([latitude, longitude]).addTo(map);
             document.getElementById('latitude').textContent = latitude
             document.getElementById('longitude').textContent = longitude
-            const btn = document.getElementById('sendloc').addEventListener('click', async () => {
+
+            const wetApiRes = await fetch(`/api/weather/${latitude},${longitude}`)
+            const wetJson = await wetApiRes.json()
+            const temperature = wetJson.current.temperature_2m
+            document.getElementById('temperature').textContent = temperature
+
+            const map = L.map('map').setView([latitude, longitude], 13)
+            L.tileLayer(tileURL, { attribution }).addTo(map)
+            L.marker([latitude, longitude]).addTo(map).bindPopup(`You are here and the temperature is ${temperature}&deg; C`).openPopup()
+
+            document.getElementById('sendloc').addEventListener('click', async () => {
                 const name = document.getElementById('name').value
                 if (name == "") {
                     return
@@ -27,8 +48,7 @@ function setup() {
                 else {
                     video.loadPixels()
                     const image64 = video.canvas.toDataURL()
-                    const data = { latitude, longitude, name, image64 }
-                    console.log(data)
+                    const data = { name, latitude, longitude, temperature, image64 }
                     const options = {
                         method: 'POST',
                         headers: {
@@ -44,6 +64,6 @@ function setup() {
         })
     }
     else {
-        console.log('Not available')
+        console.log('geolocation not available')
     }
 }
