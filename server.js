@@ -1,75 +1,122 @@
 const express = require('express')
-const fetch = require('node-fetch')
-const { exec } = require('child_process');
-const os = require('os')
-const DataStore = require('nedb');
+const Database = require('better-sqlite3')
+const path = require('path')
+const fs = require('fs')
+const crypto = require('crypto')
+
 const app = express()
-const PORT = 6969
+
 app.use(express.static('public'))
-app.use(express.json({ limit: '1mb' }))
+app.use('/uploads', express.static('uploads'))
+app.use(express.json({ limit: '10mb' }))
 
-const database = new DataStore('database.db')
-database.loadDatabase()
+const uploadsDir = path.join(__dirname, 'uploads')
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir)
+}
 
+const db = new Database('myDatabase.sqlite', { verbose: console.log })
+
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS locations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        latitude REAL,
+        longitude REAL,
+        temperature REAL,
+        image_path TEXT,
+        timestamp INTEGER
+    )
+`).run()
+
+const insertStmt = db.prepare(`
+    INSERT INTO locations 
+    (name, latitude, longitude, temperature, image_path, timestamp) 
+    VALUES 
+    (@name, @latitude, @longitude, @temperature, @image_path, @timestamp)
+`)
+
+const selectAllStmt = db.prepare('SELECT * FROM locations')
+
+function saveBase64Image(base64Data) {
+    const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, '')
+
+    const filename = `${crypto.randomBytes(16).toString('hex')}.png`
+    const filepath = path.join(uploadsDir, filename)
+
+    fs.writeFileSync(filepath, Buffer.from(base64Image, 'base64'))
+
+    return `/uploads/${filename}`
+}
 
 app.post('/api', (req, res) => {
-    const data = req.body
-    const timestemp = Date.now()
-    data.timestemp = timestemp
-    database.insert(data)
-    res.json({
-        status: 'susesses',
-        timestemp: timestemp,
-        latitude: data.latitude,
-        longitube: data.longitube,
-        name: data.name,
-        temperature: data.temperature,
-        image: data.image64,
-    })
-    res.end()
+    try {
+        const data = req.body
+        const timestamp = Date.now()
+
+        const imagePath = data.image64 ? saveBase64Image(data.image64) : null
+
+        const result = insertStmt.run({
+            name: data.name,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            temperature: data.temperature,
+            image_path: imagePath,
+            timestamp: timestamp
+        })
+
+        res.json({
+            status: 'success',
+            id: result.lastInsertRowid,
+            timestamp: timestamp,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            name: data.name,
+            temperature: data.temperature,
+            image_path: imagePath
+        })
+    } catch (error) {
+        console.error('Insert error:', error)
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to insert data'
+        })
+    }
 })
 
 app.get('/api', (req, res) => {
-    database.find({}, (err, data) => {
-        if (err) {
-            res.end()
-            return
-        }
+    try {
+        const data = selectAllStmt.all()
         res.json(data)
-    })
+    } catch (error) {
+        console.error('Retrieve error:', error)
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to retrieve data'
+        })
+    }
 })
 
 app.get('/api/weather/:latlon', async (req, res) => {
-    const latlon = req.params.latlon.split(',')
-    const latitude = latlon[0]
-    const longitude = latlon[1]
-    const weatherURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
-    const wetApiRes = await fetch(weatherURL)
-    const wetJson = await wetApiRes.json()
-    console.log(wetJson)
-    res.json(wetJson)
-})
+    try {
+        const latlon = req.params.latlon.split(',')
+        const latitude = latlon[0]
+        const longitude = latlon[1]
+        const weatherURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
 
-let openState = true
-app.listen(PORT, () => {
-    console.log(`Application Listen at PORT ${PORT}`)
-    console.log(openState)
-    if (openState) {
-        switch (os.platform()) {
-            case 'linux':
-                exec(`xdg-open http://localhost:${PORT}`)
-                openState = false
-                break;
-            case 'win32':
-                exec(`start http://localhost:${PORT}`)
-                openState = false
-                break;
-            case 'darwin':
-                exec(`open http://localhost:${PORT}`)
-                openState = false
-                break;
-            default:
-                break;
-        }
+        const wetApiRes = await fetch(weatherURL)
+        const wetJson = await wetApiRes.json()
+
+        res.json(wetJson)
+    } catch (error) {
+        console.error('Weather API error:', error)
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to fetch weather data'
+        });
     }
 })
+
+// app.listen(3000, () => { console.log('app is listening at http://localhost:3000') })
+
+module.exports = app
