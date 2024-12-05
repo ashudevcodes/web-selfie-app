@@ -117,6 +117,9 @@ app.get('/api/weather/:latlon', async (req, res) => {
     }
 })
 
-// app.listen(3000, () => { console.log('app is listening at http://localhost:3000') })
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
+
+app.listen(3000, () => { console.log('app is listening at http://localhost:3000') })
 
 module.exports = app
