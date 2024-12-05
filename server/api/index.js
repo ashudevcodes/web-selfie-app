@@ -97,25 +97,25 @@ const app = express()
 //     }
 // })
 //
-// app.get('/api/weather/:latlon', async (req, res) => {
-//     try {
-//         const latlon = req.params.latlon.split(',')
-//         const latitude = latlon[0]
-//         const longitude = latlon[1]
-//         const weatherURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
-//
-//         const wetApiRes = await fetch(weatherURL)
-//         const wetJson = await wetApiRes.json()
-//
-//         res.json(wetJson)
-//     } catch (error) {
-//         console.error('Weather API error:', error)
-//         res.status(500).json({
-//             status: 'error',
-//             message: 'Failed to fetch weather data'
-//         });
-//     }
-// })
+app.get('/api/weather/:latlon', async (req, res) => {
+    try {
+        const latlon = req.params.latlon.split(',')
+        const latitude = latlon[0]
+        const longitude = latlon[1]
+        const weatherURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
+
+        const wetApiRes = await fetch(weatherURL)
+        const wetJson = await wetApiRes.json()
+
+        res.json(wetJson)
+    } catch (error) {
+        console.error('Weather API error:', error)
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to fetch weather data'
+        });
+    }
+})
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
