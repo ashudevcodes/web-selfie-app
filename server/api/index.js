@@ -6,7 +6,7 @@ const crypto = require('crypto')
 
 const app = express()
 
-app.use(express.static('public'))
+app.use(express.static('../../client'))
 app.use('/uploads', express.static('uploads'))
 app.use(express.json({ limit: '10mb' }))
 
