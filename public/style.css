@@ -26,13 +26,6 @@ body{
         padding: 10px;
     }
     
-    #atags {
-	position: absolute;
-	bottom: 77px;
-	display: grid;
-
-}
-
     a {
         font-size: 14px;
     }
