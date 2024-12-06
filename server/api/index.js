@@ -17,14 +17,14 @@ app.use(cors({
 
 app.options('*', cors());
 
-app.use('/uploads', express.static('uploads'))
-app.use(express.json({ limit: '10mb' }))
-
-const uploadsDir = path.join(__dirname, 'uploads')
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir)
-}
-
+// app.use('/uploads', express.static('uploads'))
+// app.use(express.json({ limit: '10mb' }))
+//
+// const uploadsDir = path.join(__dirname, 'uploads')
+// if (!fs.existsSync(uploadsDir)) {
+//     fs.mkdirSync(uploadsDir)
+// }
+//
 
 const db = new Database('myDatabase.sqlite', { verbose: console.log })
 
@@ -50,25 +50,25 @@ const insertStmt = db.prepare(`
 
 const selectAllStmt = db.prepare('SELECT * FROM locations')
 
-function saveBase64Image(base64Data) {
-    const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, '')
+// function saveBase64Image(base64Data) {
+//     const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, '')
+//
+//     const filename = `${crypto.randomBytes(16).toString('hex')}.png`
+//     const filepath = path.join(uploadsDir, filename)
+//
+//     fs.writeFileSync(filepath, Buffer.from(base64Image, 'base64'))
+//
+//     return `/uploads/${filename}`
+// }
 
-    const filename = `${crypto.randomBytes(16).toString('hex')}.png`
-    const filepath = path.join(uploadsDir, filename)
-
-    fs.writeFileSync(filepath, Buffer.from(base64Image, 'base64'))
-
-    return `/uploads/${filename}`
-}
 
 
-
-app.post('/api/data', (req, res) => {
+app.post('/data', (req, res) => {
     try {
         const data = req.body
         const timestamp = Date.now()
 
-        const imagePath = data.image64 ? saveBase64Image(data.image64) : null
+        // const imagePath = data.image64 ? saveBase64Image(data.image64) : null
 
         const result = insertStmt.run({
             name: data.name,
@@ -99,7 +99,7 @@ app.post('/api/data', (req, res) => {
     }
 })
 
-app.get('/api/data', (req, res) => {
+app.get('/data', (req, res) => {
     try {
         const data = selectAllStmt.all()
         res.json(data)

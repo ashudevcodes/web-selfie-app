@@ -71,9 +71,9 @@ function setup() {
 
                     let response;
                     if (currentUrl.includes("localhost")) {
-                        response = await fetch("http://localhost:3000/api/data", requestOptions);
+                        response = await fetch("http://localhost:3000/data", requestOptions);
                     } else {
-                        response = await fetch('https://web-selfie-app.vercel.app/api/data', requestOptions);
+                        response = await fetch('https://web-selfie-app.vercel.app/data', requestOptions);
                     }
                     const responseData = await response.json()
 
