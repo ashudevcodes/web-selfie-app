@@ -33,8 +33,9 @@ function setup() {
             document.getElementById('latitude').textContent = latitude
             document.getElementById('longitude').textContent = longitude
 
-
-            const wetApiRes = await fetch(`https://web-selfie-app.vercel.app/api/weather/${latitude},${longitude}`)
+            let result;
+            const wetApiRes = result ? await fetch(`https://web-selfie-app.vercel.app/api/weather/${latitude},${longitude}`)
+                : await fetch(`http://localhost:3000/api/weather/${latitude},${longitude}`)
             const wetJson = await wetApiRes.json()
             const temperature = wetJson.current.temperature_2m
             document.getElementById('temperature').textContent = temperature

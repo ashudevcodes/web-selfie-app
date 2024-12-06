@@ -1,4 +1,5 @@
 const express = require('express')
+require('dotenv').config();
 // const Database = require('better-sqlite3')
 // const path = require('path')
 // const fs = require('fs')
@@ -106,7 +107,7 @@ app.get('/api/weather/:latlon', async (req, res) => {
 
         const wetApiRes = await fetch(weatherURL)
         const wetJson = await wetApiRes.json()
-        res.setHeader("Access-Control-Allow-Origin", "https://dataselfieapp.vercel.app", "http://localhost:8000/");
+        res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWED_ORIGINS)
         res.json(wetJson)
     } catch (error) {
         console.error('Weather API error:', error)
