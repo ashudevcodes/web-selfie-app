@@ -106,7 +106,7 @@ app.get('/api/weather/:latlon', async (req, res) => {
 
         const wetApiRes = await fetch(weatherURL)
         const wetJson = await wetApiRes.json()
-        res.setHeader("Access-Control-Allow-Origin", "https://web-selfie-app.vercel.app/", "http://localhost:8000/");
+        res.setHeader("Access-Control-Allow-Origin", "https://dataselfieapp.vercel.app", "http://localhost:8000/");
         res.json(wetJson)
     } catch (error) {
         console.error('Weather API error:', error)
