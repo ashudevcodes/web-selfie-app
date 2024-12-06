@@ -14,22 +14,17 @@ function setup() {
             document.getElementById('latitude').textContent = latitude
             document.getElementById('longitude').textContent = longitude
 
-            let wetApiRes;
-            if (currentUrl.includes("localhost")) {
-                wetApiRes = await fetch(`http://localhost:3000/api/weather/${latitude},${longitude}`);
-            } else {
-                wetApiRes = await fetch(`https://web-selfie-app.vercel.app/api/weather/${latitude},${longitude}`);
-            }
+            document.getElementById("warning").textContent = "Hover to Unblur Coordinates"
 
-            const wetJson = await wetApiRes.json()
-            const temperature = wetJson.current.temperature_2m
-            document.getElementById('temperature').textContent = temperature
+            let temperature
 
             const map = L.map('map').setView([latitude, longitude], 13)
             L.tileLayer(tileURL, { attribution }).addTo(map)
             L.marker([latitude, longitude]).addTo(map).bindPopup(`<p style="color:black">You are here, and today's temperature in your area is ${temperature}&deg; C</p>`).openPopup()
 
-            document.getElementById("warning").textContent = "Hover to Unblur Coordinates"
+
+
+
 
             noCanvas()
             let videoOn = true;
@@ -79,6 +74,17 @@ function setup() {
 
                 }
             })
+
+            let wetApiRes;
+            if (currentUrl.includes("localhost")) {
+                wetApiRes = await fetch(`http://localhost:3000/api/weather/${latitude},${longitude}`);
+            } else {
+                wetApiRes = await fetch(`https://web-selfie-app.vercel.app/api/weather/${latitude},${longitude}`);
+            }
+            const wetJson = await wetApiRes.json()
+            temperature = wetJson.current.temperature_2m
+            document.getElementById('temperature').textContent = temperature
+
         })
 
 
