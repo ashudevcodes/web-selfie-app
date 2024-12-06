@@ -1,26 +1,13 @@
-// getData()
-// async function getData() {
-//     const response = await fetch('/api')
-//     const data = await response.json()
-//     for (item of data) {
-//         const root = document.createElement('div')
-//         const name = document.createElement('div').textContent = `Name: ${item.name}\n`
-//         const geo = document.createElement('div').textContent = `Latitude: ${item.latitude}\n Longitude: ${item.longitude}\n`
-//         const temprature = document.createElement('div').textContent = `Temperature: ${item.temperature}\n`
-//         const dateString = new Date(item.timestemp).toLocaleString()
-//         const date = document.createElement('div').textContent = `Time: ${dateString}`
-//         const image = document.createElement('img')
-//         image.src = item.image64
-//         image.id = 'photo'
-//         root.append(name, geo, temprature, date, image)
-//         document.body.append(root)
-//     }
-//     console.log(data)
-// }
-
 async function getData() {
     try {
-        const response = await fetch('/api')
+        const currentUrl = window.location.href;
+        let response
+        if (currentUrl == "http://localhost:8000/logs/index.html") {
+            response = await fetch('http://localhost:3000/api/data')
+        }
+        else {
+            response = await fetch('https://web-selfie-app.vercel.app/api/data')
+        }
         const data = await response.json()
 
         const container = document.createElement('div')
