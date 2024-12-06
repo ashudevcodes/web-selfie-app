@@ -1,8 +1,7 @@
 {
   "version": 2,
   "routes": [
-    { "src": "/data", "dest": "/api/data" },
-    { "src": "/api/weather/(.*)", "dest": "/api" },
-    { "src": "/", "dest": "/api" }
+    { "src": "/api/(.*)", "dest": "/api/index.js" },
+    { "src": "/", "dest": "/server.js" }
   ]
 }
