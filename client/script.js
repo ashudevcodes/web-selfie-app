@@ -18,7 +18,7 @@ function setup() {
 
             let temperature
 
-            const map = L.map('map').setView([latitude, longitude], 13)
+            const map = L.map('map').setView([latitude + 0.02, longitude], 13)
             L.tileLayer(tileURL, { attribution }).addTo(map)
             L.marker([latitude, longitude]).addTo(map).bindPopup(`<p style="color:black">You are here, and today's temperature in your area is ${temperature}&deg; C</p>`).openPopup()
 
