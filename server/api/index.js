@@ -1,9 +1,9 @@
 const express = require('express')
 require('dotenv').config();
 const Database = require('better-sqlite3')
-const path = require('path')
-const fs = require('fs')
-const crypto = require('crypto')
+// const path = require('path')
+// const fs = require('fs')
+// const crypto = require('crypto')
 const cors = require('cors');
 
 const app = express()
@@ -26,7 +26,8 @@ app.options('*', cors());
 // }
 //
 
-const db = new Database('myDatabase.sqlite', { verbose: console.log })
+const dbPath = process.env.NODE_ENV === 'production' ? '/tmp/myDatabase.sqlite' : 'myDatabase.sqlite';
+const db = new Database(dbPath, { verbose: console.log });
 
 db.prepare(`
     CREATE TABLE IF NOT EXISTS locations (
@@ -90,12 +91,12 @@ app.post('/data', (req, res) => {
             image_path: data.image64
         })
     } catch (error) {
-        console.error('Insert error:', error)
-        res.send({ message: "hello" })
+        console.error('Insert error:', error);
         res.status(500).json({
             status: 'error',
-            message: 'Failed to insert data'
-        })
+            message: 'Failed to insert data',
+            error: error.message,
+        });
     }
 })
 
@@ -104,10 +105,11 @@ app.get('/data', (req, res) => {
         const data = selectAllStmt.all()
         res.json(data)
     } catch (error) {
-        console.error('Retrieve error:', error)
-        res.status(499).json({
+        console.error('Insert error:', error)
+        res.send({ message: "hello" })
+        res.status(500).json({
             status: 'error',
-            message: 'Failed to retrieve data'
+            message: 'Failed to insert data'
         })
     }
 })
