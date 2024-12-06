@@ -8,7 +8,7 @@ body{
 
 @media screen and (max-width: 720px) {
     p {
-        font-size: 17px;
+        font-size: 12px;
         padding: 8px;
     }
     label{
@@ -32,7 +32,6 @@ body{
 
    #textbox {
         row-gap: 3px;
-        font-size:15px;
     }
     
 
