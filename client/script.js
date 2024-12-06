@@ -26,19 +26,27 @@ function setup() {
                 }
             })
 
+
+
             const latitude = position.coords.latitude
             const longitude = position.coords.longitude
             document.getElementById('latitude').textContent = latitude
             document.getElementById('longitude').textContent = longitude
 
-            const wetApiRes = await fetch(`https://web-selfie-app.vercel.app/api/weather/${latitude},${longitude}`)
-            const wetJson = await wetApiRes.json()
-            const temperature = wetJson.current.temperature_2m
-            document.getElementById('temperature').textContent = temperature
-
             const map = L.map('map').setView([latitude, longitude], 13)
             L.tileLayer(tileURL, { attribution }).addTo(map)
             L.marker([latitude, longitude]).addTo(map).bindPopup(`You are here and the temperature is ${temperature}&deg; C`).openPopup()
+
+            try {
+                const wetApiRes = await fetch(`https://web-selfie-app.vercel.app/api/weather/${latitude},${longitude}`)
+                const wetJson = await wetApiRes.json()
+                const temperature = wetJson.current.temperature_2m
+                document.getElementById('temperature').textContent = temperature
+            } catch (error) {
+                console.log(error)
+
+            }
+
 
             document.getElementById('sendloc').addEventListener('click', async () => {
                 const name = document.getElementById('name').value
