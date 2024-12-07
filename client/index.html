@@ -7,27 +7,15 @@
         <title>Data sellfie App</title>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js" integrity="sha512-P/Je1zlTfRugG4aRZRx9hYRVph2CkbpchkgP6ub1gNF/VNHDUNq0/WOY0CSLMmwEXxrQ7HohFmMenWGpx8ZzvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js" integrity="sha512-hAm8hj9/2EIonvS+sf0G3anaY8zYHv6q7ktNlLTg8wLwFvhUavnDdH0gif8SA3U1kN0lyKBWbf1wD4+5BfaMMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <link rel="stylesheet" type="text/css" href="./style.css">
     </head>
     <body>
         <h1>Data Selfie App</h1>
-            <div id="atags">
-            <a href="./index.html">Enter Location</a>
-            <a href="./logs/index.html">List Location</a>
-            </div>
             <div id="textbox">
                 <p>The Weather Temperature Here is <span id='temperature'></span>&deg; C</p>    
                 <p style="color:yellow" id="warning">⚠ Allow Geolocation to See Map</p>
                 <p>Latitude: <span id='latitude'></span><br>Longitude: <span id='longitude'></span></p> 
-            <div id="leftal"style="position: absolute; bottom: 10px; left: 10px; display:flex; column-gap: 5px;">
-                <label style="color:white; width:13vw;" for="name">Say Your Email:</label>
-                <input type="text" id='name' placeholder="Enter">
-                <button id="cambtn">Turn on Video</button>
-                <button id='sendloc'>Capture Data</button>
-            </div>
-                <div id="map"></div><br>
+               <div id="map"></div><br>
         </div>
         <script src='./script.js'></script>
     </body>
