@@ -37,6 +37,43 @@ app.get('/getlocdata', (req, res) => {
         res.status(500).json({ status: 'error', message: 'Failed to retrieve data' });
     }
 });
+const deleteStmt = db.prepare('DELETE FROM locations WHERE id = ?');
+
+app.post('/postdel', (req, res) => {
+    try {
+        console.log("[Data DELETE Route] Runs")
+        const { id } = req.body;
+
+        if (!id) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'No ID provided for deletion'
+            });
+        }
+
+        const result = deleteStmt.run(id);
+
+        if (result.changes === 0) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'No location found with the given ID'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            message: 'Location deleted successfully',
+            id: id
+        });
+
+    } catch (error) {
+        console.error('Delete error:', error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to delete location'
+        });
+    }
+});
 
 app.post('/postlocdata', (req, res) => {
     try {
@@ -66,6 +103,10 @@ app.post('/postlocdata', (req, res) => {
         res.status(500).json({ status: 'error', message: 'Failed to insert data' });
     }
 });
+
+app.post('postdel', (req, res) => {
+
+})
 
 app.get('/weather/:latlon', async (req, res) => {
     try {

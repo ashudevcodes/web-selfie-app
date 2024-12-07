@@ -41,6 +41,7 @@ async function getData() {
             root.style.color = 'white'
             root.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)'
             root.style.marginBottom = '20px'
+            root.style.position = 'relative'  // Added for delete button positioning
 
             const nameEl = document.createElement('p')
             nameEl.textContent = `Name: ${item.name}`
@@ -77,7 +78,58 @@ async function getData() {
                 imageEl.style.filter = 'blur(3px)'
             })
 
-            root.append(nameEl, geoEl, temperatureEl, dateEl, imageEl)
+            const deleteBtn = document.createElement('button')
+            deleteBtn.textContent = '🗑️'
+            deleteBtn.style.position = 'absolute'
+            deleteBtn.style.top = '10px'
+            deleteBtn.style.right = '10px'
+            deleteBtn.style.border = 'none'
+            deleteBtn.style.borderRadius = '50%'
+            deleteBtn.style.width = '40px'
+            deleteBtn.style.height = '40px'
+            deleteBtn.style.cursor = 'pointer'
+            deleteBtn.style.display = 'flex'
+            deleteBtn.style.justifyContent = 'center'
+            deleteBtn.style.alignItems = 'center'
+            deleteBtn.style.fontSize = '20px'
+
+            deleteBtn.addEventListener('mouseenter', () => {
+                deleteBtn.style.background = 'rgba(255, 0, 0, 0.7)'
+            })
+            deleteBtn.addEventListener('mouseleave', () => {
+                deleteBtn.style.background = 'rgba(255, 0, 0, 0.5)'
+            })
+
+            deleteBtn.addEventListener('click', async () => {
+                try {
+                    const currentUrl = window.location.href;
+                    const apiUrl = currentUrl.includes('localhost')
+                        ? 'http://localhost:3000/postdel'
+                        : 'https://web-selfie-app.vercel.app/postdel';
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id: item.id })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.status === 'success') {
+                        root.remove();
+                        alert('Location deleted successfully');
+                    } else {
+                        alert('Failed to delete location: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    alert('An error occurred while deleting the location');
+                }
+            });
+
+            root.append(nameEl, geoEl, temperatureEl, dateEl, imageEl, deleteBtn)
 
             container.append(root)
         }
