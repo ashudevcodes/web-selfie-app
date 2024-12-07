@@ -3,7 +3,6 @@ const Database = require('better-sqlite3');
 const dbPath = process.env.NODE_ENV === 'production' ? '/tmp/myDatabase.sqlite' : 'myDatabase.sqlite';
 const db = new Database(dbPath, { verbose: console.log });
 
-// Create table if it doesn't exist
 db.prepare(`
     CREATE TABLE IF NOT EXISTS locations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

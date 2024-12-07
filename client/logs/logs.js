@@ -3,10 +3,10 @@ async function getData() {
         const currentUrl = window.location.href;
         let response
         if (currentUrl == "http://localhost:8000/logs/index.html") {
-            response = await fetch('http://localhost:3000/api/data')
+            response = await fetch('http://localhost:3000/getlocdata')
         }
         else {
-            response = await fetch('https://web-selfie-app.vercel.app/api/data')
+            response = await fetch('https://web-selfie-app.vercel.app/getlocdata')
         }
         const data = await response.json()
 

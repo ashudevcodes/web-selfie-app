@@ -6,7 +6,14 @@ const issURL = "https://api.wheretheiss.at/v1/satellites/25544"
 const currentUrl = window.location.href;
 
 function setup() {
+
+
     if ('geolocation' in navigator) {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
         navigator.geolocation.getCurrentPosition(async (position) => {
 
             const latitude = position.coords.latitude
@@ -16,12 +23,24 @@ function setup() {
 
             document.getElementById("warning").textContent = "Hover to Unblur Coordinates"
 
-            let temperature
 
             const map = L.map('map').setView([latitude + 0.02, longitude], 13)
             L.tileLayer(tileURL, { attribution }).addTo(map)
-            L.marker([latitude, longitude]).addTo(map).bindPopup(`<p style="color:black">You are here, and today's temperature in your area is ${temperature}&deg; C</p>`).openPopup()
+            let mark = L.marker([latitude, longitude]).addTo(map)
 
+
+            let wetApiRes;
+            if (currentUrl.includes("localhost")) {
+                wetApiRes = await fetch(`http://localhost:3000/weather/${latitude},${longitude}`);
+            } else {
+                wetApiRes = await fetch(`https://web-selfie-app.vercel.app/weather/${latitude},${longitude}`);
+            }
+
+            const wetJson = await wetApiRes.json()
+            let temperature = wetJson.current.temperature_2m
+            document.getElementById('temperature').textContent = temperature
+
+            mark.bindPopup(`<p style="color:black">You are here, and today's temperature in your area is ${temperature}&deg; C</p>`).openPopup()
 
 
 
@@ -49,7 +68,8 @@ function setup() {
 
             document.getElementById('sendloc').addEventListener('click', async () => {
                 const name = document.getElementById('name').value
-                if (name == "") {
+                if (!(name && longitude && latitude)) {
+                    console.log("Allow Location and Video To Make Public ")
                     return
                 }
                 else {
@@ -66,26 +86,21 @@ function setup() {
 
                     let response;
                     if (currentUrl.includes("localhost")) {
-                        response = await fetch("http://localhost:3000/api/data", requestOptions);
+                        response = await fetch("http://localhost:3000/postlocdata", requestOptions);
                     } else {
-                        response = await fetch('https://web-selfie-app.vercel.app/api/data', requestOptions);
+                        response = await fetch('https://web-selfie-app.vercel.app/postlocdata"', requestOptions);
                     }
                     const responseData = await response.json()
+                    console.log(responseData)
 
                 }
             })
 
-            let wetApiRes;
-            if (currentUrl.includes("localhost")) {
-                wetApiRes = await fetch(`http://localhost:3000/api/weather/${latitude},${longitude}`);
-            } else {
-                wetApiRes = await fetch(`https://web-selfie-app.vercel.app/api/weather/${latitude},${longitude}`);
-            }
-            const wetJson = await wetApiRes.json()
-            temperature = wetJson.current.temperature_2m
-            document.getElementById('temperature').textContent = temperature
 
-        })
+        }, (error) => {
+            console.warn(`ERROR(${error.code}): ${error.message}`);
+        }, options)
+
 
 
 
