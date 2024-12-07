@@ -9,7 +9,7 @@ const db = require('../database/sqlite');
 const app = express();
 
 app.use(cors({
-    origin: process.env.ALLOWED_ORIGINS || '*',
+    origin: '*',
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
