@@ -41,8 +41,7 @@ async function getData() {
             root.style.color = 'white'
             root.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)'
             root.style.marginBottom = '20px'
-            root.style.position = 'relative'  // Added for delete button positioning
-
+            root.style.position = 'relative'
             const nameEl = document.createElement('p')
             nameEl.textContent = `Name: ${item.name}`
             nameEl.style.margin = '0 0 10px 0'
@@ -101,6 +100,7 @@ async function getData() {
             })
 
             deleteBtn.addEventListener('click', async () => {
+                console.log(item)
                 try {
                     const currentUrl = window.location.href;
                     const apiUrl = currentUrl.includes('localhost')
@@ -112,7 +112,7 @@ async function getData() {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ id: item.id })
+                        body: JSON.stringify({ id: item._id })
                     });
 
                     const result = await response.json();

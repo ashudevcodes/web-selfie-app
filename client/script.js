@@ -69,7 +69,7 @@ function setup() {
             document.getElementById('sendloc').addEventListener('click', async () => {
                 const name = document.getElementById('name').value
                 if (!(name && longitude && latitude)) {
-                    console.log("Allow Location and Video To Make Public ")
+                    alert('Add Video and Location to Make data Public')
                     return
                 }
                 else {
@@ -91,7 +91,19 @@ function setup() {
                         response = await fetch('https://web-selfie-app.vercel.app/postlocdata', requestOptions);
                     }
                     const responseData = await response.json()
-                    console.log(responseData)
+
+                    if (responseData.errors && responseData.errors.length > 0) {
+                        const emailError = responseData.errors.find(error => error.path === 'email');
+
+                        if (emailError) {
+                            alert(emailError.msg || 'Invalid email address');
+                        } else {
+                            const errorMessages = responseData.errors.map(error => error.msg).join(', ');
+                            alert(errorMessages);
+                        }
+                    } else {
+                        alert('Location Added successfully');
+                    }
 
                 }
             })
