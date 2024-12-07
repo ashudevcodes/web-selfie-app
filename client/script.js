@@ -88,7 +88,7 @@ function setup() {
                     if (currentUrl.includes("localhost")) {
                         response = await fetch("http://localhost:3000/postlocdata", requestOptions);
                     } else {
-                        response = await fetch('https://web-selfie-app.vercel.app/postlocdata"', requestOptions);
+                        response = await fetch('https://web-selfie-app.vercel.app/postlocdata', requestOptions);
                     }
                     const responseData = await response.json()
                     console.log(responseData)
