@@ -13,6 +13,7 @@ body{
     }
     label{
         font-weight:900;
+        font-size:4vw;
     }
 
     input[type='text'] {
@@ -32,14 +33,13 @@ body{
 
    #textbox {
         row-gap: 3px;
-        font-size:12px;
     }
 
 
     #video_i {
     margin-bottom: 146px;
 }
-
+}
 #map {
     position: fixed;
     top: 0;
