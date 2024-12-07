@@ -14,7 +14,7 @@ function setup() {
             timeout: 5000,
             maximumAge: 0,
         };
-        navigator.geolocation.getCurrentPosition(async (position) => {
+        navigator.geolocation.watchPosition(async (position) => {
 
             const latitude = position.coords.latitude
             const longitude = position.coords.longitude
