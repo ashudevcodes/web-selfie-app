@@ -3,3 +3,4 @@ database.db
 server.js.bak
 myDatabase.sqlite
 uploads/
+./server/.env
