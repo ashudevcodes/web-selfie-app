@@ -8,6 +8,8 @@ let latitude = 0
 let longitude = 0
 let marked = true
 
+let map = L.map('map', { minZoom: 2 }).setView([latitude + 0.02, longitude], 1)
+
 const myIcon = L.icon({
     iconUrl: 'https://media.wheretheiss.at/v/423aa9eb/img/iss.png',
 })
@@ -20,6 +22,7 @@ async function getISS() {
     setInterval(() => {
         map.removeLayer(marker)
     }, 1000)
+    return { issla: data.latitude, isslo: data.longitude }
 }
 
 async function fetchWeather() {
@@ -45,23 +48,27 @@ function setup() {
         };
         navigator.geolocation.watchPosition(async (position) => {
 
-            latitude = position.coords.latitude
-            longitude = position.coords.longitude
-            document.getElementById('latitude').textContent = latitude
-            document.getElementById('longitude').textContent = longitude
+            let Colatitude = position.coords.latitude
+            let Colongitude = position.coords.longitude
+            document.getElementById('latitude').textContent = Colatitude
+            document.getElementById('longitude').textContent = Colongitude
 
             document.getElementById("warning").textContent = "Hover to Unblur Coordinates"
             const temp = await fetchWeather()
             document.getElementById('temperature').textContent = temp
 
             if (marked) {
-                let mark = L.marker([latitude, longitude]).addTo(map)
+                map.setView([Colatitude + 0.02, Colongitude], 13)
+                let mark = L.marker([Colatitude, Colongitude]).addTo(map)
                 const temperature = await fetchWeather()
                 mark.bindPopup(`<p style="color:black">You are here, and today's temperature in your area is ${temperature}&deg; C</p>`).openPopup()
+
+                console.log(latitude, longitude)
                 marked = false
             }
 
         }, (error) => {
+            map = L.map('map', { minZoom: 2 }).setView([latitude, longitude], 1)
             console.warn(`ERROR(${error.code}): ${error.message}`);
         }, options)
 
@@ -73,6 +80,5 @@ function setup() {
 setup()
 
 
-const map = L.map('map', { minZoom: 2, }).setView([latitude + 0.02, longitude], 3)
 L.tileLayer(tileURL, { attribution }).addTo(map)
 setInterval(getISS, 1000)
