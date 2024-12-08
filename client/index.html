@@ -12,12 +12,17 @@
     <body>
         <h1>Data Snapshot</h1>
             <div id="textbox">
-                <p>The Weather Temperature Here is <span id='temperature'></span>&deg; C</p>    
+                <p>The Weather Temperature Here is <span id='temperature'></span>&deg; C</p>
                 <p style="color:yellow; font-size: 13px" id="warning">⚠ Allow Geolocation to See Map</p>
-                <p>Latitude: <span id='latitude'></span><br>Longitude: <span id='longitude'></span></p> 
-                <p style="font-size:13px">International Space Station Speed: <span id="iss"></span></p>    
-               <div id="map"></div><br>
-        </div>
+                <p>Latitude: <span id='latitude'></span><br>Longitude: <span id='longitude'></span></p>
+                <p style="font-size:13px">International Space Station Speed: <span id="iss"></span><br></p>
+                <div style="display:flex; column-gap:2%">
+
+                <p style="width:4%;border:2px solid;bisplay:block" id='showiss'>🛰️</p>
+                <p style="width:4%;border:2px solid;" id='showme'>🧑</p>
+                </div>
+            </div>
+               <div id="map"></div>
         <script src='./script.js'></script>
     </body>
 </html>
