@@ -53,7 +53,7 @@ function setup() {
             document.getElementById('latitude').textContent = Colatitude
             document.getElementById('longitude').textContent = Colongitude
 
-            document.getElementById("warning").textContent = "Hover to Unblur Coordinates  Double tap to Zoom In and Pinch to Zoom Out"
+            document.getElementById("warning").textContent = "Hover to unblur coordinates, double-tap to zoom in, and pinch to zoom out on the map"
             const temp = await fetchWeather()
             document.getElementById('temperature').textContent = temp
 
