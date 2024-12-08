@@ -8,37 +8,9 @@ body{
 
 @media screen and (max-width: 720px) {
     p {
-        font-size: 12px;
+        font-size: 15px;
         padding: 8px;
     }
-    label{
-        font-weight:900;
-        font-size:4vw;
-    }
-
-    input[type='text'] {
-        width: 100%;
-        font-size: 16px;
-        padding: 8px;
-    }
-
-    button {
-        width: 100%;
-        padding: 10px;
-    }
-
-    a {
-        font-size: 14px;
-    }
-
-   #textbox {
-        row-gap: 3px;
-    }
-
-
-    #video_i {
-    margin-bottom: 146px;
-}
 }
 #map {
     position: fixed;
@@ -50,22 +22,10 @@ body{
     object-fit: cover;
 }
 
-#photo {
-    display: block;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 15px;
-    filter: blur(3px);
-    transition: filter 0.3s ease;
-}
-
-#photo:hover {
-    filter: none;
-}
 
 p{
     /* font-size:18px; */
-    background: rgba(255, 255, 255, 0.2);
+    /* background: rgba(255, 255, 255, 0.2); */
     color: white;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.125);
@@ -73,18 +33,6 @@ p{
     padding: 12px;
 }
 
-#video_i {
-    border-radius: 10px;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}
-#camdtn{
-    border-radius: 10px;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-}
 
 #latitude, #longitude{
     filter: blur(3px);
@@ -102,76 +50,17 @@ h1 {
     padding:10px;
 }
 
-a {
-    color: white;
-    background-color: #00bcd4;
-    text-decoration: none;
-    padding: 8px 16px;
-    margin-left:10px;
-    margin-top:10px;
-    border-radius: 6px;
-    float: left;
-    transition: background-color 0.3s ease;
-}
 #atags{
     float:right;
-}
-
-a:hover {
-    color: #00acc1;
-    background-color:#84f5dc;
 }
 
 
 #textbox{
     float:left;
-    margin-top:10px;
-    display:grid;
-    row-gap:5px;
+    /* margin-top:10px; */
+    /* display:grid; */
+    /* row-gap:5px; */
 }
-label{
-    align-content: center;
-}
-
-input[type='text'] {
-    width: 20%;
-    padding: 12px;
-    transition: border-color 0.3s ease;
-    font-family:'Doto';
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.125);
-    border-radius: 10px;
-    padding: 12px;
-    font-weight:bold;
-    float: left;
-    font-size:20px;
-}
-
-input[type='text']:focus {
-    outline: none;
-    border-color: #00bcd4;
-}
-
-button {
-    background-color: #00bcd4;
-    color: black;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    cursor: pointer;
-    width:35%;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-    float: left;
-    font-family: "Doto", sans-serif;
-}
-
-button:hover {
-    background-color: #00acc1;
-}
-
 
 
 #temperature {
