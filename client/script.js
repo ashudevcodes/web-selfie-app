@@ -25,6 +25,11 @@ async function getISS() {
     return { issla: data.latitude, isslo: data.longitude }
 }
 
+document.getElementById('showiss').addEventListener('click',async ()=>{
+    const getIssData = await getISS()
+    map.setView([getIssData.issla,getIssData.isslo],2)
+})
+
 async function fetchWeather() {
     let wetApiRes;
     if (currentUrl.includes("localhost")) {
@@ -53,19 +58,24 @@ function setup() {
             document.getElementById('latitude').textContent = Colatitude
             document.getElementById('longitude').textContent = Colongitude
 
+            document.getElementById('showme').addEventListener('click',async ()=>{
+                map.setView([Colatitude,Colongitude],13)
+            })
+
             document.getElementById("warning").textContent = "Hover to unblur Coordinates, double-tap to zoom in, and pinch to zoom out on the map"
-            const temp = await fetchWeather()
-            document.getElementById('temperature').textContent = temp
 
             if (marked) {
+                marked = false
                 map.setView([Colatitude + 0.02, Colongitude], 13)
                 let mark = L.marker([Colatitude, Colongitude]).addTo(map)
                 const temperature = await fetchWeather()
                 mark.bindPopup(`<p style="color:black">You are here, and today's temperature in your area is ${temperature}&deg; C</p>`).openPopup()
 
                 console.log(latitude, longitude)
-                marked = false
             }
+
+            const temp = await fetchWeather()
+            document.getElementById('temperature').textContent = temp
 
         }, (error) => {
             map = L.map('map', { minZoom: 2 }).setView([latitude, longitude], 1)
